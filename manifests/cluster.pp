@@ -1,3 +1,4 @@
+# Wazuh App Copyright (C) 2018 Wazuh Inc. (License GPLv2)
 #Define for a specific ossec cluster
 define wazuh::cluster(
   $cl_name,
