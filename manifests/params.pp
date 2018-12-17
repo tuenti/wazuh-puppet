@@ -63,6 +63,7 @@ class wazuh::params {
               $server_package = 'wazuh-manager'
               $api_service = 'wazuh-api'
               $api_package = 'wazuh-api'
+              $authd_service = 'authd'
               $wodle_openscap_content = {
                 'ssg-ubuntu-1604-ds.xml' => {
                   'type' => 'xccdf',
@@ -75,6 +76,7 @@ class wazuh::params {
               $server_package = 'wazuh-manager'
               $api_service = 'wazuh-api'
               $api_package = 'wazuh-api'
+              $authd_service = 'authd'
               $wodle_openscap_content = {
                 'ssg-debian-8-ds.xml' => {
                   'type' => 'xccdf',
@@ -90,6 +92,7 @@ class wazuh::params {
               $server_package = 'wazuh-manager'
               $api_service = 'wazuh-api'
               $api_package = 'wazuh-api'
+              $authd_service = 'authd'
               $wodle_openscap_content = undef
             }
         default: {
@@ -103,6 +106,7 @@ class wazuh::params {
           $agent_service  = 'wazuh-agent'
           $agent_package  = 'wazuh-agent'
           $server_service = 'wazuh-manager'
+          $authd_service = 'authd'
           $server_package = 'wazuh-manager'
           $api_service = 'wazuh-api'
           $api_package = 'wazuh-api'
@@ -203,6 +207,7 @@ class wazuh::params {
       $server_package = ''
       $api_service = ''
       $api_package = ''
+      $authd_service = ''
       $service_has_status  = true
 
       # TODO
