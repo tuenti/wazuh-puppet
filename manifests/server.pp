@@ -178,11 +178,6 @@ class wazuh::server (
     # TODO: ensure the authd service is started if manage_client_keys == authd
     # (see https://github.com/wazuh/wazuh/issues/80)
 
-    service { $wazuh::params::authd_service:
-      ensure   => running,
-      enable   => true,
-    }
-
     file { $wazuh::params::authd_pass_file:
       owner   => $wazuh::params::keys_owner,
       group   => $wazuh::params::keys_group,
