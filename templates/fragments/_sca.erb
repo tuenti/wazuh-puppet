@@ -1,9 +1,8 @@
     <sca>
-      <enabled>yes</enabled>
-      <scan_on_start>yes</scan_on_start>
-      <interval>12h</interval>
-      <skip_nfs>yes</skip_nfs>
-
+      <enabled><%= @ossec_sca_enabled %></enabled>
+      <scan_on_start><%= @ossec_sca_scan_on_start %></scan_on_start>
+      <interval><%= @ossec_sca_interval %></interval>
+      <skip_nfs><%= @ossec_sca_skip_nfs %></skip_nfs>
       <policies>
       <%- if @kernel == 'Windows' %>
         <%# TODO: add specific Windows policies %>
