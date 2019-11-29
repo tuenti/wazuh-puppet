@@ -292,7 +292,7 @@ class wazuh::manager (
           content => template($ossec_rootcheck_template);
       }
   }
-  if ($configure_wodle_openscap == true){
+  if $configure_wodle_openscap {
     concat::fragment {
       'ossec.conf_wodle_openscap':
         order   => 15,
