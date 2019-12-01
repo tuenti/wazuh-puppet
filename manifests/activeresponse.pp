@@ -9,8 +9,7 @@ define wazuh::activeresponse(
   $ar_timeout            = 300,
   $ar_repeated_offenders = '',
 ) {
-
-  require wazuh::params_manager
+  require wazuh::manager
 
   concat::fragment { $name:
     target  => 'ossec.conf',

@@ -1,5 +1,6 @@
 # Wazuh App Copyright (C) 2019 Wazuh Inc. (License GPLv2)
 # Define an email alert
+#TODO:rg
 define wazuh::email_alert(
   $alert_email,
   $alert_group = false

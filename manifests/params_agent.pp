@@ -12,14 +12,14 @@ class wazuh::params_agent {
 
     # Authd Registration options
 
-      $manage_client_keys                = 'yes'  # Enable/Disable agent registration
+      $manage_client_keys                = true  # Enable/Disable agent registration
       $agent_name                        = undef
       $agent_group                       = undef
       $wazuh_agent_cert                  = undef
       $wazuh_agent_key                   = undef
       $wazuh_agent_cert_path             = undef
       $wazuh_agent_key_path              = undef
-      $agent_auth_password               = undef
+      $ossec_auth_agent_password         = undef
       $wazuh_manager_root_ca_pem         = undef
 
       $wazuh_manager_root_ca_pem_path    = undef
@@ -90,6 +90,8 @@ class wazuh::params_agent {
       $ossec_time_reconnect              = 60
       $ossec_auto_restart                = 'yes'
       $ossec_crypto_method               = 'aes'
+      #TODO: find a proper place for this var
+      $ossec_config_profiles             = []
 
       $client_buffer_queue_size          = 5000
       $client_buffer_events_per_second   = 500
@@ -155,7 +157,7 @@ class wazuh::params_agent {
       $ossec_syscheck_auto_ignore        = undef
       $ossec_syscheck_directories_1      = '/etc,/usr/bin,/usr/sbin'
       $ossec_syscheck_directories_2      = '/bin,/sbin,/boot'
-      $ossec_syscheck_ignore_list        = ['/etc/mtab',
+      $ossec_syscheck_ignore             = ['/etc/mtab',
                                               '/etc/hosts.deny',
                                               '/etc/mail/statistics',
                                               '/etc/random-seed',
@@ -171,11 +173,10 @@ class wazuh::params_agent {
                                               '/sys/kernel/debug',
                                               '/dev/core',
                                             ]
-      $ossec_syscheck_ignore_type_1      = '^/proc'
-      $ossec_syscheck_ignore_type_2      = ".log$|.swp$"
-
-
-      $ossec_syscheck_nodiff             = '/etc/ssl/private.key'
+      $ossec_syscheck_ignore_sregex      = ['^/proc',
+                                              '.log$|.swp$'
+                                            ]
+      $ossec_syscheck_nodiff             = ['/etc/ssl/private.key']
       $ossec_syscheck_skip_nfs           = 'yes'
 
 
@@ -187,7 +188,10 @@ class wazuh::params_agent {
 
       case $::osfamily {
         'Debian': {
-
+          $server_service = 'wazuh-manager'
+          $server_package = 'wazuh-manager'
+          $api_service = 'wazuh-api'
+          $api_package = 'wazuh-api'
           $agent_service  = 'wazuh-agent'
           $agent_package  = 'wazuh-agent'
           $service_has_status  = false
@@ -203,10 +207,6 @@ class wazuh::params_agent {
           ]
           case $::lsbdistcodename {
             'xenial': {
-              $server_service = 'wazuh-manager'
-              $server_package = 'wazuh-manager'
-              $api_service = 'wazuh-api'
-              $api_package = 'wazuh-api'
               $wodle_openscap_content = {
                 'ssg-ubuntu-1604-ds.xml' => {
                   'type' => 'xccdf',
@@ -217,10 +217,6 @@ class wazuh::params_agent {
               }
             }
             'jessie': {
-              $server_service = 'wazuh-manager'
-              $server_package = 'wazuh-manager'
-              $api_service = 'wazuh-api'
-              $api_package = 'wazuh-api'
               $wodle_openscap_content = {
                 'ssg-debian-8-ds.xml' => {
                   'type' => 'xccdf',
@@ -232,10 +228,6 @@ class wazuh::params_agent {
               }
             }
             'stretch': {
-              $server_service = 'wazuh-manager'
-              $server_package = 'wazuh-manager'
-              $api_service = 'wazuh-api'
-              $api_package = 'wazuh-api'
               $wodle_openscap_content = {
                 'ssg-debian-9-ds.xml' => {
                   'type' => 'xccdf',
@@ -246,16 +238,9 @@ class wazuh::params_agent {
                 }
               }
             }
-            /^(wheezy|sid|precise|trusty|vivid|wily|xenial|bionic)$/: {
-              $server_service = 'wazuh-manager'
-              $server_package = 'wazuh-manager'
-              $api_service = 'wazuh-api'
-              $api_package = 'wazuh-api'
-              $wodle_openscap_content = undef
+            default: {
+              $wodle_openscap_content = {}
             }
-        default: {
-          fail("Module ${module_name} is not supported on ${::operatingsystem}")
-        }
           }
 
         }
@@ -282,7 +267,7 @@ class wazuh::params_agent {
               # taken from RHEL-7 but uses SysV-Init, not Systemd.
               # Probably best to leave this undef until we can
               # write/find a release-specific file.
-              $wodle_openscap_content = undef
+              $wodle_openscap_content = {}
             }
             'CentOS': {
 

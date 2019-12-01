@@ -1,7 +1,13 @@
   <ruleset>
     <!-- Default ruleset -->
     <decoder_dir>ruleset/decoders</decoder_dir>
+<% @ossec_ruleset_default_decoder_exclude.each do |exclude| %>
+    <decoder_exclude><%= exclude %></decoder_exclude>
+<% end %>
     <rule_dir>ruleset/rules</rule_dir>
+<% @ossec_ruleset_default_rule_exclude.each do |exclude| %>
+    <rule_exclude><%= exclude %></rule_exclude>
+<% end %>
     <rule_exclude>0215-policy_rules.xml</rule_exclude>
     <list>etc/lists/audit-keys</list>
     <list>etc/lists/amazon/aws-eventnames</list>
@@ -12,4 +18,3 @@
     <rule_dir>etc/rules</rule_dir>
   </ruleset>
 
-  

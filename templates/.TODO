@@ -1,0 +1,5 @@
+<fluent-forward>
+<database_output>
+<syslog_output>
+<labels>
+<socket>

@@ -1,0 +1,215 @@
+---
+##### Common / default values
+#### Wazuh generic settings
+wazuh::manage_repos: false
+wazuh::repo_base_url: 'https://packages.wazuh.com'
+wazuh::selinux: false
+wazuh::manage_firewall: false
+wazuh::validate_cmd_conf: ~ #defined in Linux.yaml, not for Windows
+
+### Package settings
+wazuh::service_provider: ~
+wazuh::service_has_status: ~ #TODO: check per distro 
+
+### Config file
+wazuh::config_file: '/var/ossec/etc/ossec.conf'
+wazuh::config_mode: '0640'
+wazuh::config_owner: 'root'
+wazuh::config_group: 'ossec'
+
+### Remote
+wazuh::ossec_remote_port: 1514
+wazuh::ossec_remote_protocol: 'udp'
+wazuh::ossec_remote_connection: 'secure'
+wazuh::ossec_remote_queue_size: 131072
+
+### Client Keys
+wazuh::manage_client_keys: true
+wazuh::keys_file: '/var/ossec/etc/client.keys'
+wazuh::keys_mode: '0640'
+wazuh::keys_owner: 'root'
+wazuh::keys_group: 'ossec'
+wazuh::ossec_auth_agent_password: ~
+wazuh::authd_pass_file: '/var/ossec/etc/authd.pass'
+
+### Configuration sections and templates
+wazuh::configure_rootcheck: true
+wazuh::configure_wodle_openscap: true
+wazuh::configure_wodle_cis_cat: true
+wazuh::configure_wodle_osquery: true
+wazuh::configure_wodle_syscollector: true
+wazuh::configure_sca: true
+wazuh::configure_syscheck: true
+wazuh::configure_localfile: true
+wazuh::configure_active_response: true
+
+### Modules
+
+# RootCheck -- deprecated in favor of SCA
+wazuh::ossec_rootcheck_enabled: false
+wazuh::ossec_rootcheck_frequency: 43200
+wazuh::ossec_rootcheck_check_files: true
+wazuh::ossec_rootcheck_check_trojans: true
+wazuh::ossec_rootcheck_check_dev: true
+wazuh::ossec_rootcheck_check_sys: true
+wazuh::ossec_rootcheck_check_pids: true
+wazuh::ossec_rootcheck_check_if: true
+#wazuh::ossec_rootcheck_rootkit_files: '/var/ossec/etc/rootcheck/rootkit_files.txt'
+#wazuh::ossec_rootcheck_rootkit_trojans: '/var/ossec/etc/rootcheck/rootkit_trojans.txt'
+wazuh::ossec_rootcheck_skip_nfs: true
+
+# SCA: Security Configuration Assessment
+wazuh::ossec_sca_enabled: true
+wazuh::ossec_sca_scan_on_start: true
+wazuh::ossec_sca_interval: '12h'
+wazuh::ossec_sca_skip_nfs: true
+
+# OpenSCAP
+wazuh::wodle_openscap_enabled: true
+wazuh::wodle_openscap_timeout: 1800
+wazuh::wodle_openscap_interval: '1d'
+wazuh::wodle_openscap_scan_on_start: true
+wazuh::wodle_openscap_content: {}
+
+# CIS-CAT
+wazuh::wodle_ciscat_enabled: false #TODO:
+wazuh::wodle_ciscat_timeout: 1800
+wazuh::wodle_ciscat_interval: '1d'
+wazuh::wodle_ciscat_scan_on_start: true
+wazuh::wodle_ciscat_java_path: 'wodles/java'
+wazuh::wodle_ciscat_ciscat_path: 'wodles/ciscat'
+
+# OSQuery
+wazuh::wodle_osquery_enabled: false
+wazuh::wodle_osquery_run_daemon: true
+wazuh::wodle_osquery_add_labels: true
+#wazuh::wodle_osquery_log_path: '/var/log/osquery/osqueryd.results.log'
+#wazuh::wodle_osquery_config_path: '/etc/osquery/osquery.conf'
+
+# SysCollector
+wazuh::wodle_syscollector_enabled: true
+wazuh::wodle_syscollector_interval: '1h'
+wazuh::wodle_syscollector_scan_on_start: true
+wazuh::wodle_syscollector_hardware: true
+wazuh::wodle_syscollector_os: true
+wazuh::wodle_syscollector_network: true
+wazuh::wodle_syscollector_packages: true
+wazuh::wodle_syscollector_ports: true
+wazuh::wodle_syscollector_processes: true
+
+# Localfiles
+#TODO: check wazuh::default_local_files 
+wazuh::ossec_local_files: {}
+
+# SysCheck
+wazuh::ossec_syscheck_enabled: true
+wazuh::ossec_syscheck_frequency: 43200
+wazuh::ossec_syscheck_scan_on_start: true
+wazuh::ossec_syscheck_alert_new_files: true
+wazuh::ossec_syscheck_auto_ignore: false
+wazuh::ossec_syscheck_directories: [] #TODO:
+wazuh::ossec_syscheck_ignore: [] #TODO:
+wazuh::ossec_syscheck_ignore_sregex: [] #TODO:
+wazuh::ossec_syscheck_nodiff: [] #TODO:
+wazuh::ossec_syscheck_skip_nfs: true
+
+#### Wazuh Agent parameters
+wazuh::agent::agent_package_name: 'wazuh-agent'
+wazuh::agent::agent_package_version: '3.10.2-1'
+wazuh::agent::agent_service_name: 'wazuh-agent'
+wazuh::agent::agent_name: ~
+wazuh::agent::agent_group: ~
+wazuh::agent::wazuh_agent_cert: ~
+wazuh::agent::wazuh_agent_cert_path: ~
+wazuh::agent::wazuh_agent_key: ~
+wazuh::agent::wazuh_agent_key_path: ~
+wazuh::agent::wazuh_manager_root_ca_pem: ~
+wazuh::agent::wazuh_manager_root_ca_pem_path: ~
+wazuh::agent::wazuh_register_endpoint: ~
+wazuh::agent::wazuh_reporting_endpoint: ~
+wazuh::agent::ossec_notify_time: 10
+wazuh::agent::ossec_time_reconnect: 60
+wazuh::agent::ossec_crypto_method: 'aes'
+wazuh::agent::ossec_config_profiles: []
+wazuh::agent::events_per_second: 500
+
+#### Wazuh Manager parameters
+wazuh::manager::server_package: 'wazuh-manager'
+wazuh::manager::server_service: 'wazuh-manager'
+wazuh::manager::api_package: 'wazuh-api'
+wazuh::manager::api_service: 'wazuh-api'
+wazuh::manager::server_package_version: '3.10.2-1'
+#wazuh::manager::shared_agent_config_file: '/var/ossec/etc/shared/agent.conf'
+wazuh::manager::ossec_white_list: ['127.0.0.1'] #TODO:
+wazuh::manager::ossec_alert_level: 3
+wazuh::manager::processlist_file: ~ #defined in Linux.yaml, not for Windows
+wazuh::manager::processlist_mode: ~
+wazuh::manager::processlist_owner: ~
+wazuh::manager::processlist_group: ~
+wazuh::manager::ossec_integratord_enabled: false
+
+### Configuration sections and templates
+wazuh::manager::configure_vulnerability_detector: true
+wazuh::manager::configure_command: true
+wazuh::manager::configure_ruleset: true
+wazuh::manager::configure_auth: true
+wazuh::manager::configure_cluster: true
+
+### Wazuh mTLS
+wazuh::manager::wazuh_manager_verify_manager_ssl: false
+wazuh::manager::wazuh_manager_server_crt: ~ #TODO:
+wazuh::manager::wazuh_manager_server_key: ~ #TODO:
+
+### Email notifications
+wazuh::manager::ossec_emailnotification: false
+wazuh::manager::ossec_emailfrom: 'wazuh@example.com'
+wazuh::manager::ossec_emailto: [] #array of mails
+wazuh::manager::ossec_smtp_server: 'smtp.example.com'
+wazuh::manager::ossec_email_maxperhour: 12
+wazuh::manager::ossec_email_idsname: ~ #TODO:
+wazuh::manager::ossec_email_alert_level: 12
+
+### Ruleset Exclusions
+wazuh::manager::ossec_ruleset_default_decoder_exclude: []
+wazuh::manager::ossec_ruleset_default_rule_exclude: ['0215-policy_rules.xml']
+
+### OSSEC Authd
+wazuh::manager::ossec_auth_enabled: false #TODO: should be true!
+wazuh::manager::ossec_auth_port: 1515
+wazuh::manager::ossec_auth_use_source_ip: true
+wazuh::manager::ossec_auth_force_insert: true
+wazuh::manager::ossec_auth_force_time: 0
+wazuh::manager::ossec_auth_purge: true
+wazuh::manager::ossec_auth_limit_maxagents: true
+wazuh::manager::ossec_auth_ciphers: 'HIGH:!ADH:!EXP:!MD5:!RC4:!3DES:!CAMELLIA:@STRENGTH'
+wazuh::manager::ossec_auth_ssl_verify_host: false
+#wazuh::manager::ossec_auth_ssl_manager_cert: '/var/ossec/etc/sslmanager.cert'
+#wazuh::manager::ossec_auth_ssl_manager_key: '/var/ossec/etc/sslmanager.key'
+wazuh::manager::ossec_auth_ssl_autonegotiate: true
+
+### Syslog Output
+wazuh::manager::syslog_output: false
+wazuh::manager::syslog_output_level: 2
+wazuh::manager::syslog_output_port: 514
+#wazuh::manager::syslog_output_server: ~
+#wazuh::manager::syslog_output_format: ~
+
+### Cluster
+wazuh::manager::ossec_cluster_enabled: false
+wazuh::manager::ossec_cluster_name: 'wazuh'
+wazuh::manager::ossec_cluster_node_name: 'node01' #TODO:
+wazuh::manager::ossec_cluster_node_type: 'master' #TODO:
+wazuh::manager::ossec_cluster_key: 'KEY' #TODO: 32 chars
+wazuh::manager::ossec_cluster_port: 1516
+wazuh::manager::ossec_cluster_bind_addr: '0.0.0.0'
+wazuh::manager::ossec_cluster_nodes: [] #Node IPs
+wazuh::manager::ossec_cluster_hidden: false
+
+### Modules
+# Vulnerability Detector
+wazuh::manager::wodle_vulnerability_detector_enabled: true
+wazuh::manager::wodle_vulnerability_detector_interval: '5m'
+wazuh::manager::wodle_vulnerability_detector_ignore_time: '6h'
+wazuh::manager::wodle_vulnerability_detector_run_on_start: true
+#TODO: replace this with some sort of struct?
+wazuh::manager::wodle_vulnerability_detector_feeds: {}

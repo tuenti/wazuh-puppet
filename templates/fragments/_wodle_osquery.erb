@@ -1,9 +1,7 @@
   <wodle name="osquery">
-    <disabled><%= @wodle_osquery_disabled %></disabled>
-    <run_daemon><%= @wodle_osquery_run_daemon %></run_daemon>
+    <disabled><%= wodle_osquery_enabled ? 'no' : 'yes' %></disabled>
+    <run_daemon><%= wodle_osquery_run_daemon ? 'yes' : 'no' %></run_daemon>
     <log_path><%= @wodle_osquery_log_path %></log_path>
     <config_path><%= @wodle_osquery_config_path %></config_path>
-    <add_labels><%= @wodle_osquery_add_labels %></add_labels>
+    <add_labels><%= wodle_osquery_add_labels ? 'yes' : 'no' %></add_labels>
   </wodle>
-
-  

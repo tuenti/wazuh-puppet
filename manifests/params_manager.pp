@@ -10,7 +10,6 @@ class wazuh::params_manager {
       $manage_firewall                                 = false
 
     ### Ossec.conf blocks
-
       ## Global
       $ossec_emailnotification                         = false
       $ossec_emailto                                   = []
@@ -27,7 +26,6 @@ class wazuh::params_manager {
       $ossec_remote_queue_size                         = 131072
 
     # ossec.conf generation parameters
-
       $configure_rootcheck                             = true
       $configure_wodle_openscap                        = true
       $configure_wodle_cis_cat                         = true
@@ -42,7 +40,6 @@ class wazuh::params_manager {
       $configure_auth                                  = true
       $configure_cluster                               = true
       $configure_active_response                       = false
-
 
     # ossec.conf templates paths
       $ossec_manager_template                          = 'wazuh/wazuh_manager.conf.erb'
@@ -59,107 +56,66 @@ class wazuh::params_manager {
       $ossec_ruleset_template                          = 'wazuh/fragments/_ruleset.erb'
       $ossec_auth_template                             = 'wazuh/fragments/_auth.erb'
       $ossec_cluster_template                          = 'wazuh/fragments/_cluster.erb'
+      #TODO: this seems to be used for WPK verification, not really 'Active Response', rename?
       $ossec_active_response_template                  = 'wazuh/fragments/_default_activeresponse.erb'
+      #TODO: currently stub, needs some work
+      $local_decoder_template                          = 'wazuh/local_decoder.xml.erb'
+      $local_rules_template                            = 'wazuh/local_rules.xml.erb'
+
+      ## Ruleset
+      $ossec_ruleset_default_decoder_exclude           = []
+      $ossec_ruleset_default_rule_exclude              = ['0215-policy_rules.xml']
 
       ## Rootcheck
-
-      $ossec_rootcheck_disabled                        = 'no'
-      $ossec_rootcheck_check_files                     = 'yes'
-      $ossec_rootcheck_check_trojans                   = 'yes'
-      $ossec_rootcheck_check_dev                       = 'yes'
-      $ossec_rootcheck_check_sys                       = 'yes'
-      $ossec_rootcheck_check_pids                      = 'yes'
-      $ossec_rootcheck_check_ports                     = 'yes'
-      $ossec_rootcheck_check_if                        = 'yes'
+      # deprecated in favor of SCA
+      $ossec_rootcheck_enabled                         = false
       $ossec_rootcheck_frequency                       = 43200
+      $ossec_rootcheck_check_files                     = true
+      $ossec_rootcheck_check_trojans                   = true
+      $ossec_rootcheck_check_dev                       = true
+      $ossec_rootcheck_check_sys                       = true
+      $ossec_rootcheck_check_pids                      = true
+      $ossec_rootcheck_check_ports                     = true
+      $ossec_rootcheck_check_if                        = true
       $ossec_rootcheck_rootkit_files                   = '/var/ossec/etc/rootcheck/rootkit_files.txt'
       $ossec_rootcheck_rootkit_trojans                 = '/var/ossec/etc/rootcheck/rootkit_trojans.txt'
-      $ossec_rootcheck_skip_nfs                        = 'yes'
+      $ossec_rootcheck_skip_nfs                        = true
 
-      ## Wodles
+      ## SCA: Security Configuration Assessment
+      $ossec_sca_enabled                               = true
+      $ossec_sca_scan_on_start                         = true
+      $ossec_sca_interval                              = '12h'
+      $ossec_sca_skip_nfs                              = true
 
-      #openscap
-      $wodle_openscap_disabled                         = true
-      $wodle_openscap_timeout                          = '1800'
-      $wodle_openscap_interval                         = '1d'
-      $wodle_openscap_scan_on_start                    = 'yes'
-
-      #cis-cat
-      $wodle_ciscat_disabled                           = true
-      $wodle_ciscat_timeout                            = '1800'
-      $wodle_ciscat_interval                           = '1d'
-      $wodle_ciscat_scan_on_start                      = 'yes'
-      $wodle_ciscat_java_path                          = 'wodles/java'
-      $wodle_ciscat_ciscat_path                        = 'wodles/ciscat'
-
-      #osquery
-
-      $wodle_osquery_disabled                          = true
-      $wodle_osquery_run_daemon                        = 'yes'
-      $wodle_osquery_log_path                          = '/var/log/osquery/osqueryd.results.log'
-      $wodle_osquery_config_path                       = '/etc/osquery/osquery.conf'
-      $wodle_osquery_add_labels                        = 'yes'
-
-      #syscollector
-      $wodle_syscollector_disabled                     = true
-      $wodle_syscollector_interval                     = '1h'
-      $wodle_syscollector_scan_on_start                = 'yes'
-      $wodle_syscollector_hardware                     = 'yes'
-      $wodle_syscollector_os                           = 'yes'
-      $wodle_syscollector_network                      = 'yes'
-      $wodle_syscollector_packages                     = 'yes'
-      $wodle_syscollector_ports                        = 'yes'
-      $wodle_syscollector_processes                    = 'yes'
-
-      #vulnerability-detector
-
-      $wodle_vulnerability_detector_disabled           = true
-      $wodle_vulnerability_detector_interval           = '5m'
-      $wodle_vulnerability_detector_ignore_time        = '6h'
-      $wodle_vulnerability_detector_run_on_start       = 'yes'
-      $wodle_vulnerability_detector_ubuntu_disabled    = 'yes'
-      $wodle_vulnerability_detector_ubuntu_update      = '1h'
-      $wodle_vulnerability_detector_redhat_disable     = 'yes'
-      $wodle_vulnerability_detector_redhat_update_from = '2010'
-      $wodle_vulnerability_detector_redhat_update      = '1h'
-      $wodle_vulnerability_detector_debian_9_disable   = 'yes'
-      $wodle_vulnerability_detector_debian_9_update    = '1h'
-
-      # syslog
-
-      $syslog_output                                   = false
-      $syslog_output_level                             = 2
-      $syslog_output_port                              = 514
-      $syslog_output_server                            = undef
-      $syslog_output_format                            = undef
-
-      # Authd configuration
-
-      $ossec_auth_disabled                             = 'no'
+      ## Authd
+      $ossec_auth_enabled                              = false
       $ossec_auth_port                                 = 1515
-      $ossec_auth_use_source_ip                        = 'yes'
-      $ossec_auth_force_insert                         = 'yes'
+      $ossec_auth_use_source_ip                        = true
+      $ossec_auth_force_insert                         = true
       $ossec_auth_force_time                           = 0
-      $ossec_auth_purgue                               = 'yes'
-      $ossec_auth_use_password                         = 'no'
-      $ossec_auth_limit_maxagents                      = 'yes'
+      $ossec_auth_purge                                = true
+      $ossec_auth_agent_password                       = undef
+      $ossec_auth_limit_maxagents                      = true
       $ossec_auth_ciphers                              = 'HIGH:!ADH:!EXP:!MD5:!RC4:!3DES:!CAMELLIA:@STRENGTH'
-      $ossec_auth_ssl_verify_host                      = 'no'
+      $ossec_auth_ssl_verify_host                      = false
       $ossec_auth_ssl_manager_cert                     = '/var/ossec/etc/sslmanager.cert'
       $ossec_auth_ssl_manager_key                      = '/var/ossec/etc/sslmanager.key'
-      $ossec_auth_ssl_auto_negotiate                   = 'no'
+      $ossec_auth_ssl_auto_negotiate                   = true
 
-
-      # syscheck
-
-      $ossec_syscheck_disabled                         = 'no'
+      ## Syscheck
+      $ossec_syscheck_enabled                          = true
       $ossec_syscheck_frequency                        = '43200'
-      $ossec_syscheck_scan_on_start                    = 'yes'
-      $ossec_syscheck_alert_new_files                  = 'yes'
-      $ossec_syscheck_auto_ignore                      = 'no'
-      $ossec_syscheck_directories_1                    = '/etc,/usr/bin,/usr/sbin'
-      $ossec_syscheck_directories_2                    = '/bin,/sbin,/boot'
-      $ossec_syscheck_ignore_list                      = ['/etc/mtab',
+      $ossec_syscheck_scan_on_start                    = true
+      $ossec_syscheck_alert_new_files                  = true
+      $ossec_syscheck_auto_ignore                      = false
+      $ossec_syscheck_directories                      = ['/etc',
+                                              '/usr/bin',
+                                              '/usr/sbin',
+                                              '/bin',
+                                              '/sbin',
+                                              '/boot'
+                                            ]
+      $ossec_syscheck_ignore                           = ['/etc/mtab',
                                               '/etc/hosts.deny',
                                               '/etc/mail/statistics',
                                               '/etc/random-seed',
@@ -175,15 +131,21 @@ class wazuh::params_manager {
                                               '/sys/kernel/debug',
                                               '/dev/core',
                                             ]
-      $ossec_syscheck_ignore_type_1                    = '^/proc'
-      $ossec_syscheck_ignore_type_2                    = ".log$|.swp$"
+      $ossec_syscheck_ignore_sregex                    = ['^/proc',
+                                              '.log$|.swp$'
+                                            ]
+      $ossec_syscheck_nodiff                           = ['/etc/ssl/private.key']
+      $ossec_syscheck_skip_nfs                         = true
 
-
-      $ossec_syscheck_nodiff                           = '/etc/ssl/private.key'
-      $ossec_syscheck_skip_nfs                         = 'yes'
+      # syslog
+      $syslog_output                                   = false
+      $syslog_output_level                             = 2
+      $syslog_output_port                              = 514
+      $syslog_output_server                            = undef
+      $syslog_output_format                            = undef
 
       # Cluster
-
+      $ossec_cluster_enabled                           = false
       $ossec_cluster_name                              = 'wazuh'
       $ossec_cluster_node_name                         = 'node01'
       $ossec_cluster_node_type                         = 'master'
@@ -191,35 +153,68 @@ class wazuh::params_manager {
       $ossec_cluster_port                              = '1516'
       $ossec_cluster_bind_addr                         = '0.0.0.0'
       $ossec_cluster_nodes                             = ['NODE_IP']
-      $ossec_cluster_hidden                            = 'no'
-      $ossec_cluster_disabled                          = 'yes'
+      $ossec_cluster_hidden                            = false
 
-      $ossec_cluster_enable_firewall                   = 'no'
+      ## Wodles
 
+      #openscap
+      $wodle_openscap_enabled                          = false
+      $wodle_openscap_timeout                          = '1800'
+      $wodle_openscap_interval                         = '1d'
+      $wodle_openscap_scan_on_start                    = true
+
+      #cis-cat
+      $wodle_ciscat_enabled                            = false
+      $wodle_ciscat_timeout                            = '1800'
+      $wodle_ciscat_interval                           = '1d'
+      $wodle_ciscat_scan_on_start                      = true
+      $wodle_ciscat_java_path                          = 'wodles/java'
+      $wodle_ciscat_ciscat_path                        = 'wodles/ciscat'
+
+      #osquery
+      $wodle_osquery_enabled                           = false
+      $wodle_osquery_run_daemon                        = true
+      $wodle_osquery_log_path                          = '/var/log/osquery/osqueryd.results.log'
+      $wodle_osquery_config_path                       = '/etc/osquery/osquery.conf'
+      $wodle_osquery_add_labels                        = true
+
+      #syscollector
+      $wodle_syscollector_enabled                      = true
+      $wodle_syscollector_interval                     = '1h'
+      $wodle_syscollector_scan_on_start                = true
+      $wodle_syscollector_hardware                     = true
+      $wodle_syscollector_os                           = true
+      $wodle_syscollector_network                      = true
+      $wodle_syscollector_packages                     = true
+      $wodle_syscollector_ports                        = true
+      $wodle_syscollector_processes                    = true
+
+      #vulnerability-detector
+      $wodle_vulnerability_detector_disabled           = true
+      $wodle_vulnerability_detector_interval           = '5m'
+      $wodle_vulnerability_detector_ignore_time        = '6h'
+      $wodle_vulnerability_detector_run_on_start       = true
+      #TODO: replace this with some sort of struct?
+      $wodle_vulnerability_detector_ubuntu_disabled    = 'yes'
+      $wodle_vulnerability_detector_ubuntu_update      = '1h'
+      $wodle_vulnerability_detector_redhat_disable     = 'yes'
+      $wodle_vulnerability_detector_redhat_update_from = '2010'
+      $wodle_vulnerability_detector_redhat_update      = '1h'
+      $wodle_vulnerability_detector_debian_9_disable   = 'yes'
+      $wodle_vulnerability_detector_debian_9_update    = '1h'
 
       #----- End of ossec.conf parameters -------
-
-      $ossec_prefilter                     = false
       $ossec_integratord_enabled           = false
 
-
-      $manage_client_keys                  = 'yes'
-      $agent_auth_password                 = undef
-      $ar_repeated_offenders               = ''
-
-      $local_decoder_template              = 'wazuh/local_decoder.xml.erb'
-      $decoder_exclude                     = []
-      $local_rules_template                = 'wazuh/local_rules.xml.erb'
-      $rule_exclude                        = []
+      $manage_client_keys                  = true
       $shared_agent_template               = 'wazuh/ossec_shared_agent.conf.erb'
 
+      # mTLS
       $wazuh_manager_verify_manager_ssl    = false
       $wazuh_manager_server_crt            = undef
       $wazuh_manager_server_key            = undef
 
-
       ## Wazuh config folders and modes
-
       $config_file = '/var/ossec/etc/ossec.conf'
       $shared_agent_config_file = '/var/ossec/etc/shared/agent.conf'
 
@@ -232,7 +227,6 @@ class wazuh::params_manager {
       $keys_owner = 'root'
       $keys_group = 'ossec'
 
-
       $authd_pass_file = '/var/ossec/etc/authd.pass'
 
       $validate_cmd_conf = '/var/ossec/bin/verify-agent-conf -f %'
@@ -242,10 +236,12 @@ class wazuh::params_manager {
       $processlist_owner = 'root'
       $processlist_group = 'ossec'
 
-
       case $::osfamily {
         'Debian': {
-
+          $server_service = 'wazuh-manager'
+          $server_package = 'wazuh-manager'
+          $api_service = 'wazuh-api'
+          $api_package = 'wazuh-api'
           $agent_service  = 'wazuh-agent'
           $agent_package  = 'wazuh-agent'
           $service_has_status  = false
@@ -261,10 +257,6 @@ class wazuh::params_manager {
           ]
           case $::lsbdistcodename {
             'xenial': {
-              $server_service = 'wazuh-manager'
-              $server_package = 'wazuh-manager'
-              $api_service = 'wazuh-api'
-              $api_package = 'wazuh-api'
               $wodle_openscap_content = {
                 'ssg-ubuntu-1604-ds.xml' => {
                   'type' => 'xccdf',
@@ -275,10 +267,6 @@ class wazuh::params_manager {
               }
             }
             'jessie': {
-              $server_service = 'wazuh-manager'
-              $server_package = 'wazuh-manager'
-              $api_service = 'wazuh-api'
-              $api_package = 'wazuh-api'
               $wodle_openscap_content = {
                 'ssg-debian-8-ds.xml' => {
                   'type' => 'xccdf',
@@ -290,10 +278,6 @@ class wazuh::params_manager {
               }
             }
             'stretch': {
-              $server_service = 'wazuh-manager'
-              $server_package = 'wazuh-manager'
-              $api_service = 'wazuh-api'
-              $api_package = 'wazuh-api'
               $wodle_openscap_content = {
                 'ssg-debian-9-ds.xml' => {
                   'type' => 'xccdf',
@@ -305,20 +289,14 @@ class wazuh::params_manager {
               }
             }
             /^(wheezy|sid|precise|trusty|vivid|wily|xenial|bionic)$/: {
-              $server_service = 'wazuh-manager'
-              $server_package = 'wazuh-manager'
-              $api_service = 'wazuh-api'
-              $api_package = 'wazuh-api'
-              $wodle_openscap_content = undef
+              $wodle_openscap_content = {}
             }
-        default: {
-          fail("Module ${module_name} is not supported on ${::operatingsystem}")
-        }
+            default: {
+              fail("Module ${module_name} is not supported on ${::operatingsystem}")
+            }
           }
-
         }
         'RedHat': {
-
           $agent_service  = 'wazuh-agent'
           $agent_package  = 'wazuh-agent'
           $server_service = 'wazuh-manager'
@@ -326,7 +304,6 @@ class wazuh::params_manager {
           $api_service = 'wazuh-api'
           $api_package = 'wazuh-api'
           $service_has_status  = true
-
           $default_local_files =[
               {  'location' => '/var/log/audit/audit.log' , 'log_format' => 'audit'},
               {  'location' => '/var/ossec/logs/active-responses.log' , 'log_format' => 'syslog'},
@@ -342,7 +319,7 @@ class wazuh::params_manager {
               # taken from RHEL-7 but uses SysV-Init, not Systemd.
               # Probably best to leave this undef until we can
               # write/find a release-specific file.
-              $wodle_openscap_content = undef
+              $wodle_openscap_content = {}
             }
             'CentOS': {
               if ( $::operatingsystemrelease =~ /^6.*/ ) {
@@ -443,7 +420,6 @@ class wazuh::params_manager {
         {'location' => 'System' , 'log_format' =>  'eventlog'  },
         {'location' => 'active-response\active-responses.log' , 'log_format' =>  'syslog'  },
       ]
-
     }
   default: { fail('This ossec module has not been tested on your distribution') }
   }

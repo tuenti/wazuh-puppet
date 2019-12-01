@@ -1,8 +1,8 @@
     <sca>
-      <enabled><%= @ossec_sca_enabled %></enabled>
-      <scan_on_start><%= @ossec_sca_scan_on_start %></scan_on_start>
+      <enabled><%= ossec_sca_enabled ? 'yes' : 'no' %></enabled>
+      <scan_on_start><%= ossec_sca_scan_on_start ? 'yes' : 'no' %></scan_on_start>
       <interval><%= @ossec_sca_interval %></interval>
-      <skip_nfs><%= @ossec_sca_skip_nfs %></skip_nfs>
+      <skip_nfs><%= ossec_sca_skip_nfs ? 'yes' : 'no' %></skip_nfs>
       <policies>
       <%- if @kernel == 'Windows' %>
         <%# TODO: add specific Windows policies %>
@@ -10,7 +10,7 @@
       <%- else -%>
         <policy>sca_unix_audit.yml</policy>
         <%- if @kernel == 'Linux' -%>
-          <%- if @os['family'] == 'RedHat' -%> 
+          <%- if @os['family'] == 'RedHat' -%>
             <%- if @os['name'] == 'Amazon' -%>
         <%# No ruleset available for Amazon Linux %>
         <%# Empty if-body to disable EL rules%>
@@ -27,7 +27,7 @@
           <%- end -%>
         <%- elsif @kernel == 'SunOS' -%>
           <%- if @os['name'] == 'Solaris' -%>
-        <policy>cis_solaris<%= @os['release']['major'] %>.yml</policy>  
+        <policy>cis_solaris<%= @os['release']['major'] %>.yml</policy>
           <%- end -%>
         <%- elsif @kernel == 'Darwin' -%>
         <policy>cis_apple_macOS_<%= @os['macosx']['version']['major'] %>.yml
@@ -40,6 +40,3 @@
       <%- end -%>
       </policies>
     </sca>
-
-    
-  
