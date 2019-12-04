@@ -137,7 +137,7 @@ class wazuh::manager (
       $ossec_auth_use_source_ip             = $wazuh::params_manager::ossec_auth_use_source_ip,
       $ossec_auth_force_insert              = $wazuh::params_manager::ossec_auth_force_insert,
       $ossec_auth_force_time                = $wazuh::params_manager::ossec_auth_force_time,
-      $ossec_auth_purgue                    = $wazuh::params_manager::ossec_auth_purgue,
+      $ossec_auth_purge                     = $wazuh::params_manager::ossec_auth_purge,
       $ossec_auth_use_password              = $wazuh::params_manager::ossec_auth_use_password,
       $ossec_auth_limit_maxagents           = $wazuh::params_manager::ossec_auth_limit_maxagents,
       $ossec_auth_ciphers                   = $wazuh::params_manager::ossec_auth_ciphers,
@@ -145,7 +145,7 @@ class wazuh::manager (
       $ossec_auth_ssl_manager_cert          = $wazuh::params_manager::ossec_auth_ssl_manager_cert,
       $ossec_auth_ssl_manager_key           = $wazuh::params_manager::ossec_auth_ssl_manager_key,
       $ossec_auth_ssl_auto_negotiate        = $wazuh::params_manager::ossec_auth_ssl_auto_negotiate,
-
+      $ossec_auth_ssl_agent_ca              = $wazuh::params_manager::ossec_auth_ssl_agent_ca,
 
       # syscheck
 
