@@ -27,6 +27,7 @@ class wazuh::repo (
               'src' => false,
               'deb' => true,
             },
+            notify_update => true,
           }
         }
         default: { fail('This ossec module has not been tested on your distribution (or lsb package not installed)') }

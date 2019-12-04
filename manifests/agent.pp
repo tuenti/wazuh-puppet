@@ -144,7 +144,7 @@ class wazuh::agent(
 ) inherits wazuh::params_agent {
   # validate_bool(
   #   $ossec_active_response, $ossec_rootcheck,
-  #   $selinux, $manage_repo, 
+  #   $selinux, $manage_repo,
   # )
   # This allows arrays of integers, sadly
   # (commented due to stdlib version requirement)
@@ -161,11 +161,7 @@ class wazuh::agent(
     'Linux' : {
       if $manage_repo {
         class { 'wazuh::repo':}
-        if $::osfamily == 'Debian' {
-          Class['wazuh::repo'] -> Class['apt::update'] -> Package[$agent_package_name]
-        } else {
-          Class['wazuh::repo'] -> Package[$agent_package_name]
-        }
+        Class['wazuh::repo'] -> Package[$agent_package_name]
       }
       package { $agent_package_name:
         ensure => $agent_package_version, # lint:ignore:security_package_pinned_version

@@ -240,11 +240,7 @@ class wazuh::manager (
   if $manage_repos {
     # TODO: Allow filtering of EPEL requirement
     class { 'wazuh::repo':}
-    if $::osfamily == 'Debian' {
-      Class['wazuh::repo'] -> Class['apt::update'] -> Package[$wazuh::params_manager::server_package]
-    } else {
-      Class['wazuh::repo'] -> Package[$wazuh::params_manager::server_package]
-    }
+    Class['wazuh::repo'] -> Package[$wazuh::params_manager::server_package]
   }
 
   # Install and configure Wazuh-manager package
