@@ -1,4 +1,10 @@
   <email_alerts>
     <email_to><%= @alert_email %></email_to>
-	<% if @alert_group != false -%><group><% @alert_group.each do |gr| -%><%= gr %>,<% end %></group><% end %>
+	<% if @alert_group -%><group><% @alert_group.each do |gr| -%><%= gr %>,<% end %></group><% end %>
+    <%- if @alert_location -%>
+    <event_location><%= @alert_location %></event_location>
+    <%- end -%>
+    <format><%= @alert_format %></format>
+    <% if @alert_do_not_delay %><do_not_delay/><% end %>
+    <% if @alert_do_not_group %><do_not_group/><% end %>
   </email_alerts>
