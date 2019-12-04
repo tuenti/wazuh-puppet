@@ -45,21 +45,21 @@ class wazuh::params_manager {
 
 
     # ossec.conf templates paths
-      $ossec_manager_template                          = 'wazuh/wazuh_manager.conf.erb'
-      $ossec_rootcheck_template                        = 'wazuh/fragments/_rootcheck.erb'
-      $ossec_wodle_openscap_template                   = 'wazuh/fragments/_wodle_openscap.erb'
-      $ossec_wodle_cis_cat_template                    = 'wazuh/fragments/_wodle_cis_cat.erb'
-      $ossec_wodle_osquery_template                    = 'wazuh/fragments/_wodle_osquery.erb'
-      $ossec_wodle_syscollector_template               = 'wazuh/fragments/_wodle_syscollector.erb'
-      $ossec_wodle_vulnerability_detector_template     = 'wazuh/fragments/_wodle_vulnerability_detector.erb'
-      $ossec_sca_template                              = 'wazuh/fragments/_sca.erb'
-      $ossec_syscheck_template                         = 'wazuh/fragments/_syscheck.erb'
-      $ossec_default_commands_template                 = 'wazuh/default_commands.erb'
-      $ossec_localfile_template                        = 'wazuh/fragments/_localfile.erb'
-      $ossec_ruleset_template                          = 'wazuh/fragments/_ruleset.erb'
-      $ossec_auth_template                             = 'wazuh/fragments/_auth.erb'
-      $ossec_cluster_template                          = 'wazuh/fragments/_cluster.erb'
-      $ossec_active_response_template                  = 'wazuh/fragments/_default_activeresponse.erb'
+      $ossec_manager_template                                 = 'wazuh/wazuh_manager.conf.erb'
+      $ossec_rootcheck_template                               = 'wazuh/fragments/_rootcheck.erb'
+      $ossec_wodle_openscap_template                          = 'wazuh/fragments/_wodle_openscap.erb'
+      $ossec_wodle_cis_cat_template                           = 'wazuh/fragments/_wodle_cis_cat.erb'
+      $ossec_wodle_osquery_template                           = 'wazuh/fragments/_wodle_osquery.erb'
+      $ossec_wodle_syscollector_template                      = 'wazuh/fragments/_wodle_syscollector.erb'
+      $ossec_wodle_vulnerability_detector_header_template     = 'wazuh/fragments/_wodle_vulnerability_detector_header.erb'
+      $ossec_sca_template                                     = 'wazuh/fragments/_sca.erb'
+      $ossec_syscheck_template                                = 'wazuh/fragments/_syscheck.erb'
+      $ossec_default_commands_template                        = 'wazuh/default_commands.erb'
+      $ossec_localfile_template                               = 'wazuh/fragments/_localfile.erb'
+      $ossec_ruleset_template                                 = 'wazuh/fragments/_ruleset.erb'
+      $ossec_auth_template                                    = 'wazuh/fragments/_auth.erb'
+      $ossec_cluster_template                                 = 'wazuh/fragments/_cluster.erb'
+      $ossec_active_response_template                         = 'wazuh/fragments/_default_activeresponse.erb'
 
       ## Rootcheck
 

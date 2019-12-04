@@ -45,21 +45,21 @@ class wazuh::manager (
       $configure_active_response            = $wazuh::params_manager::configure_active_response,
 
     # ossec.conf templates paths
-      $ossec_manager_template                       = $wazuh::params_manager::ossec_manager_template,
-      $ossec_rootcheck_template                     = $wazuh::params_manager::ossec_rootcheck_template,
-      $ossec_wodle_openscap_template                = $wazuh::params_manager::ossec_wodle_openscap_template,
-      $ossec_wodle_cis_cat_template                 = $wazuh::params_manager::ossec_wodle_cis_cat_template,
-      $ossec_wodle_osquery_template                 = $wazuh::params_manager::ossec_wodle_osquery_template,
-      $ossec_wodle_syscollector_template            = $wazuh::params_manager::ossec_wodle_syscollector_template,
-      $ossec_wodle_vulnerability_detector_template  = $wazuh::params_manager::ossec_wodle_vulnerability_detector_template,
-      $ossec_sca_template                           = $wazuh::params_manager::ossec_sca_template,
-      $ossec_syscheck_template                      = $wazuh::params_manager::ossec_syscheck_template,
-      $ossec_default_commands_template              = $wazuh::params_manager::ossec_default_commands_template,
-      $ossec_localfile_template                     = $wazuh::params_manager::ossec_localfile_template,
-      $ossec_ruleset_template                       = $wazuh::params_manager::ossec_ruleset_template,
-      $ossec_auth_template                          = $wazuh::params_manager::ossec_auth_template,
-      $ossec_cluster_template                       = $wazuh::params_manager::ossec_cluster_template,
-      $ossec_active_response_template               = $wazuh::params_manager::ossec_active_response_template,
+      $ossec_manager_template                              = $wazuh::params_manager::ossec_manager_template,
+      $ossec_rootcheck_template                            = $wazuh::params_manager::ossec_rootcheck_template,
+      $ossec_wodle_openscap_template                       = $wazuh::params_manager::ossec_wodle_openscap_template,
+      $ossec_wodle_cis_cat_template                        = $wazuh::params_manager::ossec_wodle_cis_cat_template,
+      $ossec_wodle_osquery_template                        = $wazuh::params_manager::ossec_wodle_osquery_template,
+      $ossec_wodle_syscollector_template                   = $wazuh::params_manager::ossec_wodle_syscollector_template,
+      $ossec_wodle_vulnerability_detector_header_template  = $wazuh::params_manager::ossec_wodle_vulnerability_detector_header_template,
+      $ossec_sca_template                                  = $wazuh::params_manager::ossec_sca_template,
+      $ossec_syscheck_template                             = $wazuh::params_manager::ossec_syscheck_template,
+      $ossec_default_commands_template                     = $wazuh::params_manager::ossec_default_commands_template,
+      $ossec_localfile_template                            = $wazuh::params_manager::ossec_localfile_template,
+      $ossec_ruleset_template                              = $wazuh::params_manager::ossec_ruleset_template,
+      $ossec_auth_template                                 = $wazuh::params_manager::ossec_auth_template,
+      $ossec_cluster_template                              = $wazuh::params_manager::ossec_cluster_template,
+      $ossec_active_response_template                      = $wazuh::params_manager::ossec_active_response_template,
 
       ## Rootcheck
 
@@ -374,10 +374,16 @@ class wazuh::manager (
   }
   if($configure_vulnerability_detector == true){
     concat::fragment {
-      'ossec.conf_wodle_vulnerability_detector':
+      'ossec.conf_wodle_vulnerability_detector_header':
         order   => 45,
         target  => 'ossec.conf',
-        content => template($ossec_wodle_vulnerability_detector_template);
+        content => template($ossec_wodle_vulnerability_detector_header_template);
+    }
+    concat::fragment {
+      'ossec.conf_wodle_vulnerability_detector_footer':
+        order   => 47,
+        target  => 'ossec.conf',
+        content => "  </wodle>\n"
     }
   }
   if($configure_syscheck == true){
